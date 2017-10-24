@@ -12,16 +12,28 @@ class App extends Component {
       options: []
     }
     this.addActivity = this.addActivity.bind(this);
+    this.removeAll = this.removeAll.bind(this);
   }
 
-  addActivity(option){
-    if(this.state.options.indexOf(option) > 0)
-        return "Option already exists";
-    this.setState((prevState) => {
-      return{
-      options: prevState.options.concat(option)
+  removeAll() {
+    this.setState(() => {
+      return {
+        options: []
       }
-    })
+    }
+    );
+  }
+
+  addActivity(option) {
+        console.log('option is', option);
+    if (this.state.options.indexOf(option) >= 0)
+      return "Option already exists";
+    this.setState((prevState) => {
+      return {
+        options: prevState.options.concat(option)
+      }
+    });
+    console.log('options is', option);
   }
 
   render() {
@@ -30,8 +42,9 @@ class App extends Component {
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <Activity addActivity={this.addActivity}/>
+        <button onClick={this.removeAll}>REMOVE ALL</button>
         <Options options={this.state.options} />
+        <Activity addActivity={this.addActivity} />
       </div>
     );
   }

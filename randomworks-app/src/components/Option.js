@@ -5,7 +5,7 @@ const Option = (props) => {
         <div>
             {props.optionText}
         </div>
-    );
+    );    
 }
 
 export default Option;

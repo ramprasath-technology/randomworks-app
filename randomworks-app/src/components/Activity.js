@@ -1,45 +1,38 @@
 import React, { Component } from 'react';
 
 export default class Activity extends Component {
+
     constructor(props) {
         super(props);
         this.addActivity = this.addActivity.bind(this);
-        this.captureActivity = this.captureActivity.bind(this);
         this.state = {
-            error: undefined
+            error: undefined,
         }
     }
 
     addActivity(event) {
+        let error = undefined;
         event.preventDefault();
-        console.log(this.state.activity);
-        if (!this.state.activity) {
-            this.setState({
-                inputError: "Enter valid activity"
-            });
-        }
-        else {
-            console.log(this.state.activity);
-            this.props.addActivity(this.state.activity);
-        }
-    }
+        const currentActivity = event.target.elements.activity.value.trim();
+        event.target.elements.activity.value = '';
+        if (!currentActivity)
+            error = "Enter a value";
+        else
+            error = this.props.addActivity(currentActivity);
 
-    captureActivity(event) {
-        const activity = event.target.value.trim();
-        this.setState((prevState) => {
-            return {
-                activity
-            }
-        });
+        this.setState(() => ({ error }))
     }
 
     render() {
         return (
             <div>
-                <input type="text" onChange={this.captureActivity} />
-                <button onClick={this.addActivity}>
-                    Submit
+                {this.state.error && <p>{this.state.error}</p>}
+                <form onSubmit={this.addActivity}>
+                    <input type="text" name="activity" />
+                    <button type="submit">
+                        SUBMIT
                 </button>
+                </form>
             </div>
         );
     }
