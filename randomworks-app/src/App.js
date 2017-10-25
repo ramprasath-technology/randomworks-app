@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/Header';
 import Activity from './components/Activity';
 import Options from './components/Options';
+import Action from './components/Action';
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +14,15 @@ class App extends Component {
     }
     this.addActivity = this.addActivity.bind(this);
     this.removeAll = this.removeAll.bind(this);
+    this.removeOption = this.removeOption.bind(this);
+    this.determineAction = this.determineAction.bind(this);
+  }
+
+  determineAction(){
+    const randomNumber = Math.ceil(Math.random() * (this.state.options.length-1));
+    alert(randomNumber);
+    const option = this.state.options[randomNumber];  
+    alert(option);
   }
 
   removeAll() {
@@ -24,8 +34,15 @@ class App extends Component {
     );
   }
 
+  removeOption(optionToRemove){
+    this.setState( (prevState) => {
+      return{
+        options : prevState.options.filter( (option) => optionToRemove !== option)
+      }
+    })
+  }
+
   addActivity(option) {
-        console.log('option is', option);
     if (this.state.options.indexOf(option) >= 0)
       return "Option already exists";
     this.setState((prevState) => {
@@ -43,8 +60,9 @@ class App extends Component {
       <div>
         <Header title={title} subtitle={subtitle} />
         <button onClick={this.removeAll}>REMOVE ALL</button>
-        <Options options={this.state.options} />
+        <Options options={this.state.options} removeOption={this.removeOption}/>
         <Activity addActivity={this.addActivity} />
+        <Action options={this.state.options} determineAction={this.determineAction} />
       </div>
     );
   }
