@@ -5,24 +5,38 @@ import Header from './components/Header';
 import Activity from './components/Activity';
 import Options from './components/Options';
 import Action from './components/Action';
+import DecisionModal from './components/Modal';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: []
+      options: [],
+      selectedOption: undefined
     }
     this.addActivity = this.addActivity.bind(this);
     this.removeAll = this.removeAll.bind(this);
     this.removeOption = this.removeOption.bind(this);
     this.determineAction = this.determineAction.bind(this);
+    this.deleteSelectedOption = this.deleteSelectedOption.bind(this);
   }
 
   determineAction(){
     const randomNumber = Math.ceil(Math.random() * (this.state.options.length-1));
-    alert(randomNumber);
-    const option = this.state.options[randomNumber];  
-    alert(option);
+    const selectedOption = this.state.options[randomNumber];  
+    this.setState( () => {
+      return{
+        selectedOption
+      }
+    });
+  }
+
+  deleteSelectedOption(){
+    this.setState( () => {
+      return{
+        selectedOption: undefined
+      }
+    })
   }
 
   removeAll() {
@@ -63,6 +77,7 @@ class App extends Component {
         <Options options={this.state.options} removeOption={this.removeOption}/>
         <Activity addActivity={this.addActivity} />
         <Action options={this.state.options} determineAction={this.determineAction} />
+        <DecisionModal selectedOption={this.state.selectedOption} deleteSelectedOption={this.deleteSelectedOption}/>
       </div>
     );
   }
