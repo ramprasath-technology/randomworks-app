@@ -4,6 +4,8 @@ import Modal from 'react-modal';
 const DecisionModal = (props) => (
     <Modal
     isOpen={!!props.selectedOption}
+    contentLabel="Selected Option"
+    onRequestClose={props.deleteSelectedOption}
     >
         {props.selectedOption} 
 
